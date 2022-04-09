@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="cn" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Hugo 0.74.3" />
+    <meta name="description" content="AWS Technical Event">
+<meta name="author" content="Weiqiong Chen/Robin Long">
+
+    <link rel="icon" href="./images/favicon.ico" type="image/png">
+
+    <title>1-Personalize个性化推荐 :: AWS AI Day</title>
+
+    
+    <link href="./css/nucleus.css?1649510871" rel="stylesheet">
+    <link href="./css/fontawesome-all.min.css?1649510871" rel="stylesheet">
+    <link href="./css/hybrid.css?1649510871" rel="stylesheet">
+    <link href="./css/featherlight.min.css?1649510871" rel="stylesheet">
+    <link href="./css/perfect-scrollbar.min.css?1649510871" rel="stylesheet">
+    <link href="./css/auto-complete.css?1649510871" rel="stylesheet">
+    <link href="./css/atom-one-dark-reasonable.css?1649510871" rel="stylesheet">
+    <link href="./css/theme.css?1649510871" rel="stylesheet">
+    <link href="./css/tabs.css?1649510871" rel="stylesheet">
+    <link href="./css/hugo-theme.css?1649510871" rel="stylesheet">
+    
+    <link href="./css/theme-aws.css?1649510871" rel="stylesheet">
+    
+    
+
+    <script src="./js/jquery-3.3.1.min.js?1649510871"></script>
+
+    <style>
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+      
+    </style>
+    
+  </head>
+  <body class="" data-url="./1-personalize.html">
+    <nav id="sidebar" class="showVisitedLinks">
+
+
+
+  <div id="header-wrapper">
+    <div id="header">
+      <div>
+   <a href="./" title="Go Index">
+       <img style="vertical-align:middle" src="./images/logo.png" height="70px" />
+   </a>
+ </div>
+ 
+    </div>
+    
+        <div class="searchbox">
+    <label for="search-by"><i class="fas fa-search"></i></label>
+    <input data-search-input id="search-by" type="search" placeholder="">
+    <span data-search-clear=""><i class="fas fa-times"></i></span>
+</div>
+
+<script type="text/javascript" src="./js/lunr.min.js?1649510871"></script>
+<script type="text/javascript" src="./js/auto-complete.js?1649510871"></script>
+<script type="text/javascript">
+    
+        var baseurl = "";
+    
+</script>
+<script type="text/javascript" src="./js/search.js?1649510871"></script>
+
+    
+  </div>
+  
+    <section id="homelinks">
+      <ul>
+        <li>
+            <a class="padding" href='./'><i class='fas fa-home'></i> Home</a>
+        </li>
+      </ul>
+    </section>
+  
+
+    <div class="highlightable">
+    <ul class="topics">
+
+        
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/0-prepare.html" title="0-账号准备" class="dd-item
+        
+        
+        
+        ">
+      <a href="./0-prepare.html">
+          0-账号准备
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/1-personalize.html" title="1-Personalize个性化推荐" class="dd-item
+        parent
+        active
+        
+        ">
+      <a href="./1-personalize.html">
+          1-Personalize个性化推荐
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-sagemaker.html" title="2-SageMaker模型训练" class="dd-item
+        
+        
+        
+        ">
+      <a href="./2-sagemaker.html">
+          2-SageMaker模型训练
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/about.html" title="关于我们" class="dd-item
+        
+        
+        
+        ">
+      <a href="./about.html">
+          关于我们
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+    </li>
+  
+ 
+
+          
+        
+    </ul>
+
+    
+    
+
+    
+    <section id="prefooter">
+      <hr/>
+      <ul>
+      
+
+      
+        <li><a class="padding" href="#" data-clear-history-toggle=""><i class="fas fa-history fa-fw"></i> </a></li>
+      
+      </ul>
+    </section>
+    
+    <section id="footer">
+      <left>
+	<h5 class="copyright">CopyRight: &copy; 2022 bwcx.me.
+		<BR>Author: Weiqiong Chen/Robin Long
+		<BR>Update: 2022-04
+	<h5>
+</left>
+    </section>
+  </div>
+</nav>
+
+
+
+
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+              
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            <a href='./'>AI-Day</a> > 1-Personalize个性化推荐
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#实验目标">实验目标</a></li>
+    <li><a href="#环境准备">环境准备</a></li>
+    <li><a href="#实验过程">实验过程</a></li>
+    <li><a href="#注意事项">注意事项</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
+        <div id="head-tags">
+        
+<div class="tags">
+
+  <a class="tag-link" href="./tags/personalize">Personalize</a>
+
+  <a class="tag-link" href="./tags/recommendation">Recommendation</a>
+
+</div>
+
+        </div>
+        
+        <div id="body-inner">
+          
+            <h1>
+              
+              1-Personalize个性化推荐
+            </h1>
+          
+
+        
+
+
+
+	
+<div class="notices tip" ><p>要完成所有的实验，大概需要 1 小时。</p>
+</div>
+
+<h2 id="实验目标">实验目标</h2>
+<hr>
+<p>在本练习中，您将学习如何使用Amazon Personalize 构建实时的推荐系统。Amazon Personalize是AWS在2018年推出的全新机器学习服务，用来帮助客户低成本地快速构建推荐类应用程序，而不需要用户有任何机器学习的经验。</p>
+<p>本次实验的场景是利用用户针对电影的打分高低，来为用户推荐他可能喜欢的电影。我们用到的实验数据为csv格式，包含了user_id, item_id, rating以及timestamp四个字段的内容。</p>
+<p>其中user_id代表用户ID，item_id代表电影ID，rating代表用户对电影的打分，timestamp代表打分的时间，样例数据如下所示：</p>
+<p><img src="./images/1/00.png" alt=""></p>
+<p>在此教程中，您将完成以下实验：</p>
+<ul>
+<li>创建数据集和数据集组并导入数据</li>
+<li>使用配方创建解决方案版本并利用指标进行评估</li>
+<li>使用解决方案创建市场活动</li>
+<li>使用市场活动为用户提供推荐</li>
+</ul>
+<p><img src="./images/1/01.png" alt=""></p>
+<h2 id="环境准备">环境准备</h2>
+<hr>
+<p>本实验将在美国东部 (弗吉尼亚北部)（us-east-1）区域进行；本实验涉及的数据链接为 <code>https://aws-ai-day.s3.amazonaws.com/ratings.csv</code>，请学员们下载后上传至自己的S3存储桶（推荐大家创建S3存储桶时为了避免名称唯一性的冲突问题，可以在存储桶名字那里加入自己的账户ID）。</p>
+<p>如下数据集内容供参考
+<section class="attachments ">
+  <label>
+    <i class="fas fa-paperclip" aria-hidden="true"></i>
+    数据集
+  </label>
+  <div class="attachments-files">
+    <li>
+      <a href="./1-personalize/_index.files/ratings.csv">ratings.csv</a>
+      (2 )
+    </li>
+  </div>
+</section>
+</p>
+<h2 id="实验过程">实验过程</h2>
+<hr>
+<p>1.上传数据到S3存储桶</p>
+<ul>
+<li>
+<p>登录AWS控制台，选择S3服务，点击创建新的存储桶，存储桶名字需自定义，区域选择美国东部 (弗吉尼亚北部)，如下图所示：
+<img src="./images/1/02.png" alt=""></p>
+</li>
+<li>
+<p>选择刚才创建的S3桶，点击权限标签卡，为该存储桶指定新的存储桶策略，将以下代码复制粘贴进输入框中，记得替换<code>bucket-name</code>为你真实的S3存储桶名字，点击保存，如下图所示：</p>
+</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;Version&#34;</span>: <span style="color:#e6db74">&#34;2012-10-17&#34;</span>,
+    <span style="color:#f92672">&#34;Id&#34;</span>: <span style="color:#e6db74">&#34;PersonalizeS3BucketAccessPolicy&#34;</span>,
+    <span style="color:#f92672">&#34;Statement&#34;</span>: [
+        {
+            <span style="color:#f92672">&#34;Sid&#34;</span>: <span style="color:#e6db74">&#34;PersonalizeS3BucketAccessPolicy&#34;</span>,
+            <span style="color:#f92672">&#34;Effect&#34;</span>: <span style="color:#e6db74">&#34;Allow&#34;</span>,
+            <span style="color:#f92672">&#34;Principal&#34;</span>: {
+                <span style="color:#f92672">&#34;Service&#34;</span>: <span style="color:#e6db74">&#34;personalize.amazonaws.com&#34;</span>
+            },
+            <span style="color:#f92672">&#34;Action&#34;</span>: [
+                <span style="color:#e6db74">&#34;s3:GetObject&#34;</span>,
+                <span style="color:#e6db74">&#34;s3:ListBucket&#34;</span>
+            ],
+            <span style="color:#f92672">&#34;Resource&#34;</span>: [
+                <span style="color:#e6db74">&#34;arn:aws:s3:::bucket-name&#34;</span>,
+                <span style="color:#e6db74">&#34;arn:aws:s3:::bucket-name/*&#34;</span>
+            ]
+        }
+    ]
+}
+</code></pre></div><p><img src="./images/1/03.png" alt=""></p>
+<ul>
+<li>将刚才下载的数据集（ <code>ratings.csv</code> ）上传至创建好的S3存储桶。
+<img src="./images/1/04.png" alt=""></li>
+</ul>
+<p>2.创建数据集组</p>
+<p>登录AWS控制台，在控制台右上角选择美国东部 (弗吉尼亚北部)，进入Amazon Personalize页面（在 服务 菜单栏中，输入关键字 <code>Personalize</code> 搜索Amazon Personalize服务）
+<img src="./images/1/05.png" alt=""></p>
+<p>进入Amazon Personalize服务主界面后，选择 Get Started，进入创建数据集组的页面，输入数据集组名字，例如movie-demo,然后点击next，进入创建数据集的页面，输入数据集的名称，例如 <code>movie-dataset</code>：
+<img src="./images/1/06.png" alt=""></p>
+<p>继续在本页面中，为数据集定义schema，首先输入选择创建新的schema的名称，然后输入schema的名称，例如<code>movie-schema</code>。schema的内容是用户为电影打分数据的字段信息描述，在此前的章节中已经有过介绍，这里我们直接复制下面的代码到输入框中即可。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;record&#34;</span>,
+    <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Interactions&#34;</span>,
+    <span style="color:#f92672">&#34;namespace&#34;</span>: <span style="color:#e6db74">&#34;com.amazonaws.personalize.schema&#34;</span>,
+    <span style="color:#f92672">&#34;fields&#34;</span>: [
+        {
+            <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;USER_ID&#34;</span>,
+            <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;string&#34;</span>
+        },
+        {
+            <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;ITEM_ID&#34;</span>,
+            <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;string&#34;</span>
+        },
+        {
+            <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;rating&#34;</span>,
+            <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;double&#34;</span>
+        },
+        {
+            <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;timestamp&#34;</span>,
+            <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;long&#34;</span>
+        }
+    ],
+    <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;1.0&#34;</span>
+}
+</code></pre></div><p>输入信息完成后，如下图所示：
+<img src="./images/1/07.png" alt=""></p>
+<p>点击next进入数据集导入页面，在页面中输入数据导入作业的名称，例如<code>movie-dataset-import</code>。然后创建 IAM Service Role，选择创建新的角色，在弹出的对话框中选择 Any S3 bucket，然后点击创建，如下图所示：
+<img src="./images/1/08.png" alt=""></p>
+<p>创建角色后，在底部输入框中指定好rating.csv在S3中的存储路径，最后点击完成，如下图所示：
+<img src="./images/1/09.png" alt=""></p>
+<p>在数据导入完成后，大约耗时12分钟，因为后台会坐数据校验和特征工程，我们可以通过控制台观察到数据集和数据导入作业的状态为Active，如下图所示：
+<img src="./images/1/10.png" alt=""></p>
+<p>3.使用配方创建解决方案</p>
+<p>在数据集导入完成后，回到Dashboard页面，你会发现创建解决方案的按钮变亮了，点击Start，如下图所示：
+<img src="./images/1/11.png" alt=""></p>
+<p>在弹出的页面中输入解决方案的名字，例如<code>movie-solution</code>，然后选择 aws-user-personzlize配方，保持其他选项为默认值，最后点击next，如下图所示：
+<img src="./images/1/12.png" alt=""></p>
+<p>在弹出的页面中，点击完成，等待解决方案创建完成，整个过程大约35分钟，如下图所示：
+<img src="./images/1/13.png" alt=""></p>
+<p>解决方案处于创建过程中
+<img src="./images/1/14.png" alt=""></p>
+<p>耐心等待创建完成即可。</p>
+<p>4.创建市场活动</p>
+<p>继续回到Dashboard页面，可以看到创建市场按钮变量，点击创建，如下图所示：
+<img src="./images/1/15.png" alt=""></p>
+<p>在弹出的页面中，输入市场活动的名称，例如<code>movie-campaign</code>，然后选择此前创建好的解决方案以及相应的版本，其余的选项保持默认，点击创建，如下图所示：
+<img src="./images/1/16.png" alt=""></p>
+<p>等待市场活动创建完成，状态变为Active，大概8分钟左右，如下图所示：
+<img src="./images/1/17.png" alt=""></p>
+<p>5.为用户获取推荐</p>
+<p>点击此前创建的市场活动进入详情页，在页面中输入用户ID，点击获取推荐就能得到为该用户推荐的电影ID和相应的得分，如下图所示：
+<img src="./images/1/18.png" alt=""></p>
+<p>至此，您已经独立完成了基于Amazon Personalize的推荐应用实验。</p>
+<h2 id="注意事项">注意事项</h2>
+<hr>
+<ul>
+<li>1.S3桶的权限策略必须设置，否则无法读取数据。</li>
+<li>2.数据导入，创建解决方案以及创建市场活动都需要一定的时间，请耐心等待。</li>
+</ul>
+<p>文档和版权信息</p>
+<hr>
+<p>本章作者： Li Wei</p>
+<p>~完~</p>
+
+
+
+
+
+<footer class=" footline" >
+	
+</footer>
+
+        
+        </div>
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+
+        
+
+
+	 
+	 
+		
+			<a class="nav nav-prev" href="./0-prepare.html" title="0-账号准备"> <i class="fa fa-chevron-left"></i></a>
+		
+		
+			<a class="nav nav-next" href="./2-sagemaker.html" title="2-SageMaker模型训练" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+	
+    </div>
+
+    </section>
+
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="./js/clipboard.min.js?1649510871"></script>
+    <script src="./js/perfect-scrollbar.min.js?1649510871"></script>
+    <script src="./js/perfect-scrollbar.jquery.min.js?1649510871"></script>
+    <script src="./js/jquery.sticky.js?1649510871"></script>
+    <script src="./js/featherlight.min.js?1649510871"></script>
+    <script src="./js/highlight.pack.js?1649510871"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="./js/modernizr.custom-3.6.0.js?1649510871"></script>
+    <script src="./js/learn.js?1649510871"></script>
+    <script src="./js/hugo-learn.js?1649510871"></script>
+    
+        
+            <script src="./mermaid/mermaid.js?1649510871"></script>
+        
+        <script>
+            mermaid.initialize({ startOnLoad: true });
+        </script>
+    
+    
+
+  </body>
+</html>

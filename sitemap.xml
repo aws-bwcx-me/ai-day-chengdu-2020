@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>/</loc>
+  </url>
+  
+  <url>
+    <loc>/0-prepare.html</loc>
+  </url>
+  
+  <url>
+    <loc>/1-personalize.html</loc>
+  </url>
+  
+  <url>
+    <loc>/2-sagemaker.html</loc>
+  </url>
+  
+  <url>
+    <loc>/about.html</loc>
+  </url>
+  
+  <url>
+    <loc>/categories.html</loc>
+  </url>
+  
+  <url>
+    <loc>/tags/personalize.html</loc>
+  </url>
+  
+  <url>
+    <loc>/tags/recommendation.html</loc>
+  </url>
+  
+  <url>
+    <loc>/tags/sagemaker.html</loc>
+  </url>
+  
+  <url>
+    <loc>/tags.html</loc>
+  </url>
+  
+  <url>
+    <loc>/tags/tensorflow.html</loc>
+  </url>
+  
+</urlset>

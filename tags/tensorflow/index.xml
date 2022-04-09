@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>TensorFlow on AWS AI Day</title>
+    <link>/tags/tensorflow.html</link>
+    <description>Recent content in TensorFlow on AWS AI Day</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    
+	<atom:link href="/tags/tensorflow/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>2-SageMaker模型训练</title>
+      <link>/2-sagemaker.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/2-sagemaker.html</guid>
+      <description>要完成所有的实验，大概需要 1 小时。
+ 创建Jupyter Notebook  登陆AWS账号，切换到美东区域us-east-1，打开 SageMaker Jupyter Notebook 控制台: https://console.aws.amazon.com/sagemaker/home?region=us-east-1#/notebook-instances
+然后创建笔记本实例：
+ 笔记本实例名称：（自行填写） 笔记本实例类型：ml.t3.medium IAM角色：创建新角色，选择“任意S3存储桶” 其余保持默认   准备材料  等待笔记本实例从 Pending 状态变成 InService 状态后，点击 “打开 JupyterLab”。
+在Jupyter Notebook下载实验材料
+ 在Launcher界面中打开Terminal。 执行以下命令下载完整代码：   cd /home/ec2-user/SageMaker/ wget https://sagemaker-ap-southeast-1-249517808360.s3-ap-southeast-1.amazonaws.com/amazon-sagemaker-custom-recommend-system_chengdu.zip unzip amazon-sagemaker-custom-recommend-system_chengdu.zip -d amazon-sagemaker-custom-recommend-system 当然，也可以手工下载如下的附件并上传到notebook里面去（获取url直接wget）   实验材料   amazon-sagemaker-custom-recommend-system_chengdu.zip (14 )    运行实验  打开 model-training-notebook.ipynb，（用 conda_tensorflow_p36 内核）
+依次运行每个代码块即可。
+实验结束后，记得关闭Jupyter Notebook。
+ 先停止notebook 再删除notebook  文档和版权信息</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Recommendation on AWS AI Day</title>
+    <link>/tags/recommendation.html</link>
+    <description>Recent content in Recommendation on AWS AI Day</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    
+	<atom:link href="/tags/recommendation/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>1-Personalize个性化推荐</title>
+      <link>/1-personalize.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/1-personalize.html</guid>
+      <description>要完成所有的实验，大概需要 1 小时。
+ 实验目标  在本练习中，您将学习如何使用Amazon Personalize 构建实时的推荐系统。Amazon Personalize是AWS在2018年推出的全新机器学习服务，用来帮助客户低成本地快速构建推荐类应用程序，而不需要用户有任何机器学习的经验。
+本次实验的场景是利用用户针对电影的打分高低，来为用户推荐他可能喜欢的电影。我们用到的实验数据为csv格式，包含了user_id, item_id, rating以及timestamp四个字段的内容。
+其中user_id代表用户ID，item_id代表电影ID，rating代表用户对电影的打分，timestamp代表打分的时间，样例数据如下所示：
+在此教程中，您将完成以下实验：
+ 创建数据集和数据集组并导入数据 使用配方创建解决方案版本并利用指标进行评估 使用解决方案创建市场活动 使用市场活动为用户提供推荐  环境准备  本实验将在美国东部 (弗吉尼亚北部)（us-east-1）区域进行；本实验涉及的数据链接为 https://aws-ai-day.s3.amazonaws.com/ratings.csv，请学员们下载后上传至自己的S3存储桶（推荐大家创建S3存储桶时为了避免名称唯一性的冲突问题，可以在存储桶名字那里加入自己的账户ID）。
+如下数据集内容供参考   数据集   ratings.csv (2 )    实验过程  1.上传数据到S3存储桶
+  登录AWS控制台，选择S3服务，点击创建新的存储桶，存储桶名字需自定义，区域选择美国东部 (弗吉尼亚北部)，如下图所示：   选择刚才创建的S3桶，点击权限标签卡，为该存储桶指定新的存储桶策略，将以下代码复制粘贴进输入框中，记得替换bucket-name为你真实的S3存储桶名字，点击保存，如下图所示：
+  { &amp;#34;Version&amp;#34;: &amp;#34;2012-10-17&amp;#34;, &amp;#34;Id&amp;#34;: &amp;#34;PersonalizeS3BucketAccessPolicy&amp;#34;, &amp;#34;Statement&amp;#34;: [ { &amp;#34;Sid&amp;#34;: &amp;#34;PersonalizeS3BucketAccessPolicy&amp;#34;, &amp;#34;Effect&amp;#34;: &amp;#34;Allow&amp;#34;, &amp;#34;Principal&amp;#34;: { &amp;#34;Service&amp;#34;: &amp;#34;personalize.amazonaws.com&amp;#34; }, &amp;#34;Action&amp;#34;: [ &amp;#34;s3:GetObject&amp;#34;, &amp;#34;s3:ListBucket&amp;#34; ], &amp;#34;Resource&amp;#34;: [ &amp;#34;arn:aws:s3:::bucket-name&amp;#34;, &amp;#34;arn:aws:s3:::bucket-name/*&amp;#34; ] } ] }  将刚才下载的数据集（ ratings.</description>
+    </item>
+    
+  </channel>
+</rss>

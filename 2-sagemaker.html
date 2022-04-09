@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="cn" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Hugo 0.74.3" />
+    <meta name="description" content="AWS Technical Event">
+<meta name="author" content="Weiqiong Chen/Robin Long">
+
+    <link rel="icon" href="./images/favicon.ico" type="image/png">
+
+    <title>2-SageMaker模型训练 :: AWS AI Day</title>
+
+    
+    <link href="./css/nucleus.css?1649510871" rel="stylesheet">
+    <link href="./css/fontawesome-all.min.css?1649510871" rel="stylesheet">
+    <link href="./css/hybrid.css?1649510871" rel="stylesheet">
+    <link href="./css/featherlight.min.css?1649510871" rel="stylesheet">
+    <link href="./css/perfect-scrollbar.min.css?1649510871" rel="stylesheet">
+    <link href="./css/auto-complete.css?1649510871" rel="stylesheet">
+    <link href="./css/atom-one-dark-reasonable.css?1649510871" rel="stylesheet">
+    <link href="./css/theme.css?1649510871" rel="stylesheet">
+    <link href="./css/tabs.css?1649510871" rel="stylesheet">
+    <link href="./css/hugo-theme.css?1649510871" rel="stylesheet">
+    
+    <link href="./css/theme-aws.css?1649510871" rel="stylesheet">
+    
+    
+
+    <script src="./js/jquery-3.3.1.min.js?1649510871"></script>
+
+    <style>
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+      
+    </style>
+    
+  </head>
+  <body class="" data-url="./2-sagemaker.html">
+    <nav id="sidebar" class="showVisitedLinks">
+
+
+
+  <div id="header-wrapper">
+    <div id="header">
+      <div>
+   <a href="./" title="Go Index">
+       <img style="vertical-align:middle" src="./images/logo.png" height="70px" />
+   </a>
+ </div>
+ 
+    </div>
+    
+        <div class="searchbox">
+    <label for="search-by"><i class="fas fa-search"></i></label>
+    <input data-search-input id="search-by" type="search" placeholder="">
+    <span data-search-clear=""><i class="fas fa-times"></i></span>
+</div>
+
+<script type="text/javascript" src="./js/lunr.min.js?1649510871"></script>
+<script type="text/javascript" src="./js/auto-complete.js?1649510871"></script>
+<script type="text/javascript">
+    
+        var baseurl = "";
+    
+</script>
+<script type="text/javascript" src="./js/search.js?1649510871"></script>
+
+    
+  </div>
+  
+    <section id="homelinks">
+      <ul>
+        <li>
+            <a class="padding" href='./'><i class='fas fa-home'></i> Home</a>
+        </li>
+      </ul>
+    </section>
+  
+
+    <div class="highlightable">
+    <ul class="topics">
+
+        
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/0-prepare.html" title="0-账号准备" class="dd-item
+        
+        
+        
+        ">
+      <a href="./0-prepare.html">
+          0-账号准备
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/1-personalize.html" title="1-Personalize个性化推荐" class="dd-item
+        
+        
+        
+        ">
+      <a href="./1-personalize.html">
+          1-Personalize个性化推荐
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-sagemaker.html" title="2-SageMaker模型训练" class="dd-item
+        parent
+        active
+        
+        ">
+      <a href="./2-sagemaker.html">
+          2-SageMaker模型训练
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/about.html" title="关于我们" class="dd-item
+        
+        
+        
+        ">
+      <a href="./about.html">
+          关于我们
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+    </li>
+  
+ 
+
+          
+        
+    </ul>
+
+    
+    
+
+    
+    <section id="prefooter">
+      <hr/>
+      <ul>
+      
+
+      
+        <li><a class="padding" href="#" data-clear-history-toggle=""><i class="fas fa-history fa-fw"></i> </a></li>
+      
+      </ul>
+    </section>
+    
+    <section id="footer">
+      <left>
+	<h5 class="copyright">CopyRight: &copy; 2022 bwcx.me.
+		<BR>Author: Weiqiong Chen/Robin Long
+		<BR>Update: 2022-04
+	<h5>
+</left>
+    </section>
+  </div>
+</nav>
+
+
+
+
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+              
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            <a href='./'>AI-Day</a> > 2-SageMaker模型训练
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#创建jupyter-notebook">创建Jupyter Notebook</a></li>
+    <li><a href="#准备材料">准备材料</a></li>
+    <li><a href="#运行实验">运行实验</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
+        <div id="head-tags">
+        
+<div class="tags">
+
+  <a class="tag-link" href="./tags/sagemaker">SageMaker</a>
+
+  <a class="tag-link" href="./tags/tensorflow">TensorFlow</a>
+
+</div>
+
+        </div>
+        
+        <div id="body-inner">
+          
+            <h1>
+              
+              2-SageMaker模型训练
+            </h1>
+          
+
+        
+
+
+
+	
+<div class="notices tip" ><p>要完成所有的实验，大概需要 1 小时。</p>
+</div>
+
+<h2 id="创建jupyter-notebook">创建Jupyter Notebook</h2>
+<hr>
+<p>登陆AWS账号，切换到美东区域us-east-1，打开 <a href="https://console.aws.amazon.com/sagemaker/home?region=us-east-1#/notebook-instances">SageMaker Jupyter Notebook 控制台: https://console.aws.amazon.com/sagemaker/home?region=us-east-1#/notebook-instances</a></p>
+<p><img src="./images/2/01.png" alt=""></p>
+<p>然后创建笔记本实例：</p>
+<ul>
+<li>笔记本实例名称：（自行填写）</li>
+<li>笔记本实例类型：<code>ml.t3.medium</code></li>
+<li>IAM角色：创建新角色，选择“任意S3存储桶”</li>
+<li>其余保持默认
+<img src="./images/2/02.png" alt=""></li>
+</ul>
+<h2 id="准备材料">准备材料</h2>
+<hr>
+<p>等待笔记本实例从 <code>Pending</code> 状态变成 <code>InService</code> 状态后，点击 “打开 JupyterLab”。</p>
+<p>在Jupyter Notebook下载实验材料</p>
+<ul>
+<li>在Launcher界面中打开Terminal。</li>
+<li>执行以下命令下载完整代码：</li>
+<li></li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cd /home/ec2-user/SageMaker/
+wget https://sagemaker-ap-southeast-1-249517808360.s3-ap-southeast-1.amazonaws.com/amazon-sagemaker-custom-recommend-system_chengdu.zip
+
+unzip amazon-sagemaker-custom-recommend-system_chengdu.zip -d amazon-sagemaker-custom-recommend-system
+</code></pre></div><p>当然，也可以手工下载如下的附件并上传到notebook里面去（获取url直接wget）
+<section class="attachments ">
+  <label>
+    <i class="fas fa-paperclip" aria-hidden="true"></i>
+    实验材料
+  </label>
+  <div class="attachments-files">
+    <li>
+      <a href="./2-sagemaker/_index.files/amazon-sagemaker-custom-recommend-system_chengdu.zip">amazon-sagemaker-custom-recommend-system_chengdu.zip</a>
+      (14 )
+    </li>
+  </div>
+</section>
+</p>
+<h2 id="运行实验">运行实验</h2>
+<hr>
+<p>打开 <code>model-training-notebook.ipynb</code>，（用 <code>conda_tensorflow_p36</code> 内核）</p>
+<p>依次运行每个代码块即可。</p>
+<p>实验结束后，记得关闭Jupyter Notebook。</p>
+<ul>
+<li>先停止notebook</li>
+<li>再删除notebook</li>
+</ul>
+<p>文档和版权信息</p>
+<hr>
+<p>本章作者： Yuejun Qiu</p>
+<p>~完~</p>
+
+
+
+
+
+<footer class=" footline" >
+	
+</footer>
+
+        
+        </div>
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+
+        
+
+
+	 
+	 
+		
+			<a class="nav nav-prev" href="./1-personalize.html" title="1-Personalize个性化推荐"> <i class="fa fa-chevron-left"></i></a>
+		
+		
+			<a class="nav nav-next" href="./about.html" title="关于我们" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+	
+    </div>
+
+    </section>
+
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="./js/clipboard.min.js?1649510871"></script>
+    <script src="./js/perfect-scrollbar.min.js?1649510871"></script>
+    <script src="./js/perfect-scrollbar.jquery.min.js?1649510871"></script>
+    <script src="./js/jquery.sticky.js?1649510871"></script>
+    <script src="./js/featherlight.min.js?1649510871"></script>
+    <script src="./js/highlight.pack.js?1649510871"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="./js/modernizr.custom-3.6.0.js?1649510871"></script>
+    <script src="./js/learn.js?1649510871"></script>
+    <script src="./js/hugo-learn.js?1649510871"></script>
+    
+        
+            <script src="./mermaid/mermaid.js?1649510871"></script>
+        
+        <script>
+            mermaid.initialize({ startOnLoad: true });
+        </script>
+    
+    
+
+  </body>
+</html>

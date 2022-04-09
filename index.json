@@ -1,0 +1,78 @@
+[
+{
+	"uri": "/",
+	"title": "AI-Day",
+	"tags": [],
+	"description": "",
+	"content": "AWS AI Day 成都站 - 2020.11  要完成所有的实验，大概需要 1-2 小时。\n 我们的实验使用的区域是AWS的美国东部 (弗吉尼亚北部)（us-east-1），如果一不小心进入了别的区域，记得在控制台切换回即可。\n "
+},
+{
+	"uri": "/0-prepare.html",
+	"title": "0-账号准备",
+	"tags": [],
+	"description": "",
+	"content": "使用IAM用户账号  在创建IAM User时需要分配 Administrator 权限。\n 官方文档\nhttps://docs.aws.amazon.com/zh_cn/IAM/latest/UserGuide/getting-started_create-admin-group.html 1.登录AWS控制台，进入IAM首页，然后选择创建用户（此处我们以用户名 workshop 为例，并不代表一定要用这个用户名） 2.附加 AdministratorAccess 这个IAM策略 3.保存即可 使用活动临时账号  默认具备 Administrator 权限.\n 如果拿到的是 Eventengine 的账号（其实是一个 hash code），打开这个地址: https://dashboard.eventengine.run/，会出现如下的登录框 输入Code以后，会出现如下所示的登录成功页面，点击登录 AWS Console ，系统会再度打开一个区域和环境变量的确认按钮，继续点击登录控制台即可自动登录AWS控制台，不需要输入用户名和密码，默认具有管理员权限\n~完~\n"
+},
+{
+	"uri": "/1-personalize.html",
+	"title": "1-Personalize个性化推荐",
+	"tags": ["Personalize", "Recommendation"],
+	"description": "",
+	"content": " 要完成所有的实验，大概需要 1 小时。\n 实验目标  在本练习中，您将学习如何使用Amazon Personalize 构建实时的推荐系统。Amazon Personalize是AWS在2018年推出的全新机器学习服务，用来帮助客户低成本地快速构建推荐类应用程序，而不需要用户有任何机器学习的经验。\n本次实验的场景是利用用户针对电影的打分高低，来为用户推荐他可能喜欢的电影。我们用到的实验数据为csv格式，包含了user_id, item_id, rating以及timestamp四个字段的内容。\n其中user_id代表用户ID，item_id代表电影ID，rating代表用户对电影的打分，timestamp代表打分的时间，样例数据如下所示：\n在此教程中，您将完成以下实验：\n 创建数据集和数据集组并导入数据 使用配方创建解决方案版本并利用指标进行评估 使用解决方案创建市场活动 使用市场活动为用户提供推荐  环境准备  本实验将在美国东部 (弗吉尼亚北部)（us-east-1）区域进行；本实验涉及的数据链接为 https://aws-ai-day.s3.amazonaws.com/ratings.csv，请学员们下载后上传至自己的S3存储桶（推荐大家创建S3存储桶时为了避免名称唯一性的冲突问题，可以在存储桶名字那里加入自己的账户ID）。\n如下数据集内容供参考   数据集   ratings.csv (2 )    实验过程  1.上传数据到S3存储桶\n  登录AWS控制台，选择S3服务，点击创建新的存储桶，存储桶名字需自定义，区域选择美国东部 (弗吉尼亚北部)，如下图所示：   选择刚才创建的S3桶，点击权限标签卡，为该存储桶指定新的存储桶策略，将以下代码复制粘贴进输入框中，记得替换bucket-name为你真实的S3存储桶名字，点击保存，如下图所示：\n  { \u0026#34;Version\u0026#34;: \u0026#34;2012-10-17\u0026#34;, \u0026#34;Id\u0026#34;: \u0026#34;PersonalizeS3BucketAccessPolicy\u0026#34;, \u0026#34;Statement\u0026#34;: [ { \u0026#34;Sid\u0026#34;: \u0026#34;PersonalizeS3BucketAccessPolicy\u0026#34;, \u0026#34;Effect\u0026#34;: \u0026#34;Allow\u0026#34;, \u0026#34;Principal\u0026#34;: { \u0026#34;Service\u0026#34;: \u0026#34;personalize.amazonaws.com\u0026#34; }, \u0026#34;Action\u0026#34;: [ \u0026#34;s3:GetObject\u0026#34;, \u0026#34;s3:ListBucket\u0026#34; ], \u0026#34;Resource\u0026#34;: [ \u0026#34;arn:aws:s3:::bucket-name\u0026#34;, \u0026#34;arn:aws:s3:::bucket-name/*\u0026#34; ] } ] }  将刚才下载的数据集（ ratings.csv ）上传至创建好的S3存储桶。   2.创建数据集组\n登录AWS控制台，在控制台右上角选择美国东部 (弗吉尼亚北部)，进入Amazon Personalize页面（在 服务 菜单栏中，输入关键字 Personalize 搜索Amazon Personalize服务） 进入Amazon Personalize服务主界面后，选择 Get Started，进入创建数据集组的页面，输入数据集组名字，例如movie-demo,然后点击next，进入创建数据集的页面，输入数据集的名称，例如 movie-dataset： 继续在本页面中，为数据集定义schema，首先输入选择创建新的schema的名称，然后输入schema的名称，例如movie-schema。schema的内容是用户为电影打分数据的字段信息描述，在此前的章节中已经有过介绍，这里我们直接复制下面的代码到输入框中即可。\n{ \u0026#34;type\u0026#34;: \u0026#34;record\u0026#34;, \u0026#34;name\u0026#34;: \u0026#34;Interactions\u0026#34;, \u0026#34;namespace\u0026#34;: \u0026#34;com.amazonaws.personalize.schema\u0026#34;, \u0026#34;fields\u0026#34;: [ { \u0026#34;name\u0026#34;: \u0026#34;USER_ID\u0026#34;, \u0026#34;type\u0026#34;: \u0026#34;string\u0026#34; }, { \u0026#34;name\u0026#34;: \u0026#34;ITEM_ID\u0026#34;, \u0026#34;type\u0026#34;: \u0026#34;string\u0026#34; }, { \u0026#34;name\u0026#34;: \u0026#34;rating\u0026#34;, \u0026#34;type\u0026#34;: \u0026#34;double\u0026#34; }, { \u0026#34;name\u0026#34;: \u0026#34;timestamp\u0026#34;, \u0026#34;type\u0026#34;: \u0026#34;long\u0026#34; } ], \u0026#34;version\u0026#34;: \u0026#34;1.0\u0026#34; } 输入信息完成后，如下图所示： 点击next进入数据集导入页面，在页面中输入数据导入作业的名称，例如movie-dataset-import。然后创建 IAM Service Role，选择创建新的角色，在弹出的对话框中选择 Any S3 bucket，然后点击创建，如下图所示： 创建角色后，在底部输入框中指定好rating.csv在S3中的存储路径，最后点击完成，如下图所示： 在数据导入完成后，大约耗时12分钟，因为后台会坐数据校验和特征工程，我们可以通过控制台观察到数据集和数据导入作业的状态为Active，如下图所示： 3.使用配方创建解决方案\n在数据集导入完成后，回到Dashboard页面，你会发现创建解决方案的按钮变亮了，点击Start，如下图所示： 在弹出的页面中输入解决方案的名字，例如movie-solution，然后选择 aws-user-personzlize配方，保持其他选项为默认值，最后点击next，如下图所示： 在弹出的页面中，点击完成，等待解决方案创建完成，整个过程大约35分钟，如下图所示： 解决方案处于创建过程中 耐心等待创建完成即可。\n4.创建市场活动\n继续回到Dashboard页面，可以看到创建市场按钮变量，点击创建，如下图所示： 在弹出的页面中，输入市场活动的名称，例如movie-campaign，然后选择此前创建好的解决方案以及相应的版本，其余的选项保持默认，点击创建，如下图所示： 等待市场活动创建完成，状态变为Active，大概8分钟左右，如下图所示： 5.为用户获取推荐\n点击此前创建的市场活动进入详情页，在页面中输入用户ID，点击获取推荐就能得到为该用户推荐的电影ID和相应的得分，如下图所示： 至此，您已经独立完成了基于Amazon Personalize的推荐应用实验。\n注意事项   1.S3桶的权限策略必须设置，否则无法读取数据。 2.数据导入，创建解决方案以及创建市场活动都需要一定的时间，请耐心等待。  文档和版权信息\n 本章作者： Li Wei\n~完~\n"
+},
+{
+	"uri": "/2-sagemaker.html",
+	"title": "2-SageMaker模型训练",
+	"tags": ["SageMaker", "TensorFlow"],
+	"description": "",
+	"content": " 要完成所有的实验，大概需要 1 小时。\n 创建Jupyter Notebook  登陆AWS账号，切换到美东区域us-east-1，打开 SageMaker Jupyter Notebook 控制台: https://console.aws.amazon.com/sagemaker/home?region=us-east-1#/notebook-instances\n然后创建笔记本实例：\n 笔记本实例名称：（自行填写） 笔记本实例类型：ml.t3.medium IAM角色：创建新角色，选择“任意S3存储桶” 其余保持默认   准备材料  等待笔记本实例从 Pending 状态变成 InService 状态后，点击 “打开 JupyterLab”。\n在Jupyter Notebook下载实验材料\n 在Launcher界面中打开Terminal。 执行以下命令下载完整代码：   cd /home/ec2-user/SageMaker/ wget https://sagemaker-ap-southeast-1-249517808360.s3-ap-southeast-1.amazonaws.com/amazon-sagemaker-custom-recommend-system_chengdu.zip unzip amazon-sagemaker-custom-recommend-system_chengdu.zip -d amazon-sagemaker-custom-recommend-system 当然，也可以手工下载如下的附件并上传到notebook里面去（获取url直接wget）   实验材料   amazon-sagemaker-custom-recommend-system_chengdu.zip (14 )    运行实验  打开 model-training-notebook.ipynb，（用 conda_tensorflow_p36 内核）\n依次运行每个代码块即可。\n实验结束后，记得关闭Jupyter Notebook。\n 先停止notebook 再删除notebook  文档和版权信息\n 本章作者： Yuejun Qiu\n~完~\n"
+},
+{
+	"uri": "/about.html",
+	"title": "关于我们",
+	"tags": [],
+	"description": "",
+	"content": " 警告：本站所有技术文章和截图，仅供读者作为学习参考资料，严禁用于违法犯罪活动，否则产生的一切后果由读者自行承担，本站和所有作者均不承担任何法律及连带责任！\n   作者： Weiqiong Chen, Robin Long 更新： 2022/04/01  "
+},
+{
+	"uri": "/categories.html",
+	"title": "Categories",
+	"tags": [],
+	"description": "",
+	"content": ""
+},
+{
+	"uri": "/tags/personalize.html",
+	"title": "Personalize",
+	"tags": [],
+	"description": "",
+	"content": ""
+},
+{
+	"uri": "/tags/recommendation.html",
+	"title": "Recommendation",
+	"tags": [],
+	"description": "",
+	"content": ""
+},
+{
+	"uri": "/tags/sagemaker.html",
+	"title": "SageMaker",
+	"tags": [],
+	"description": "",
+	"content": ""
+},
+{
+	"uri": "/tags.html",
+	"title": "Tags",
+	"tags": [],
+	"description": "",
+	"content": ""
+},
+{
+	"uri": "/tags/tensorflow.html",
+	"title": "TensorFlow",
+	"tags": [],
+	"description": "",
+	"content": ""
+}]
